@@ -2,6 +2,7 @@ package br.com.OTime.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,15 +20,19 @@ public class UsuarioController {
 	
 	@GetMapping("formulario")
 	public String formulario(RequisicaoNovoUsuario requisicao) {
-		return "usuario/formulario";
+		return "usuario/FormNovoUsuario";
 	}
 	
 	@PostMapping("novo")	
-	public String novo(RequisicaoNovoUsuario requisicao) {
+	public String novo(RequisicaoNovoUsuario requisicao, Model model) {
 		
 		Usuario usuario = requisicao.toUsuario();
 		usuarioRepository.save(usuario);
 		
-		return "console.log('teste')";
+		model.addAttribute("usuario", usuario);
+		
+		System.out.println(usuario.toString());
+		
+		return "redirect:/home";
 	}
 }
