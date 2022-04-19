@@ -18,33 +18,29 @@
 				<div class="form-group"> 
 					<label for="chapa">Chapa</label>
 					<input th:field="*{chapa}" class="form-control" placeholder="Chapa do usuário" /> 
-					<small>Informe a chapa do usuário</small>
 				</div>
 				<div class="form-group">
 					<label for="nome">Nome</label>
 					<input th:field="*{nome}" class="form-control" name="nome" placeholder="Nome do usuário" />
-					<small>Nome do usuário</small>
 				</div>
 				<div class="form-group">
 					<label for="email">E-mail</label>
 					<input th:field="*{email}" type="email" class="form-control" name="email" placeholder="E-mail do usuário" />
-					<small>E-mail do usuário</small>
 				</div>
 				<div class="form-group">
 					<label for="senha">Senha</label>
 					<input th:field="*{senha}" type="password" class="form-control" name="senha" placeholder="Senha do usuário" />
-					<small>Senha do usuário</small>
 				</div>
 				<div class="form-group">
-					<select th:field="*{perfil}" class="form-select" aria-label="perfil">
+					<label th:field="*{perfil}" for="perfil">Perfil</label>
+					<select name="perfil" class="form-select" aria-label="perfil">
 						<option selected>Selecione o perfil do usuário</option>
-						<option th:each="perfil : ${allPerfis}" th:value="${pefil}" value="ADMIN">Administrador</option>
-						<option th:each="perfil : ${allPerfis}" th:value="${pefil}" value="USER">Usuário</option>
+						<option th:each="perfil : ${listaPerfis}" 
+								th:text="${perfil}"
+						/>
 					</select>
 				</div>
-				
-			</div>
-				<button type="submit" class="btn btn-primary">Cadastrar</button>
+				<button type="submit" class="btn btn-primary mt-2">Cadastrar</button>
 			</form>
         </div>
 	</div>
