@@ -1,5 +1,6 @@
 package br.com.OTime.model;
 
+import java.sql.Time;
 import java.time.LocalDate;
 
 import javax.persistence.Column;
@@ -25,7 +26,7 @@ public class HoraExtra {
 	private String descricao;
 	
 	private LocalDate data;
-	private LocalDate horas;
+	private Time horas;
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	private Usuario usuario;
@@ -60,11 +61,11 @@ public class HoraExtra {
 		this.data = data;
 	}
 
-	public LocalDate getHoras() {
+	public Time getHoras() {
 		return horas;
 	}
 
-	public void setHoras(LocalDate horas) {
+	public void setHoras(Time horas) {
 		this.horas = horas;
 	}
 
