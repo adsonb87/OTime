@@ -7,9 +7,12 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import br.com.OTime.dto.RequisicaoNovaHoraExtra;
 import br.com.OTime.model.HoraExtra;
@@ -40,7 +43,7 @@ public class HoraExtraController {
 	
 	
 	@GetMapping("formulario")
-	public String formulario(RequisicaoNovaHoraExtra requisicaoNovaHoraExtra, Model model) {
+	public String novo(RequisicaoNovaHoraExtra requisicaoNovaHoraExtra, Model model) {
 		
 		model.addAttribute("listaTipoHoras", listaTipoHoras);
 		
@@ -50,7 +53,7 @@ public class HoraExtraController {
 	
 	
 	@PostMapping("novo")	
-	public String novaHoraExtra(RequisicaoNovaHoraExtra requisicao, Model model) {
+	public String salvar(RequisicaoNovaHoraExtra requisicao, Model model) {
 		
 		Optional<Usuario> usuarioBuscao = usuarioRepository.findById("0100086");
 		
@@ -72,4 +75,67 @@ public class HoraExtraController {
 		return null;
 		
 	}
+	
+	@GetMapping("listar")
+	public String listar(Model model) {
+		
+		List<HoraExtra> horasExtras = horaExtraRepository.findAll();
+		
+		model.addAttribute("listaHorasExtras", horasExtras);
+		
+		return null;
+		
+	}
+	
+	@PutMapping("editar")
+	public String editar (@RequestParam("id") String id, Model model) {
+		
+		Optional<HoraExtra> horaExtraBuscada = horaExtraRepository.findById(Long.parseLong(id));
+		
+		if(!horaExtraBuscada.isPresent()) {
+			return null;
+		}
+		
+		HoraExtra horaExtra = horaExtraBuscada.get();
+		horaExtraRepository.save(horaExtra);
+		
+		model.addAttribute("horaExtra", horaExtra);
+		
+		
+		return null;
+	}
+	
+	@DeleteMapping("apagar")
+	public String apagar (@RequestParam("id") String id) {
+		
+		Optional<HoraExtra> horaExtraBuscada = horaExtraRepository.findById(Long.parseLong(id));
+		
+		if(!horaExtraBuscada.isPresent()) {
+			return null;
+		}
+		
+		HoraExtra horaExtra = horaExtraBuscada.get();
+		horaExtraRepository.delete(horaExtra);
+		
+		return null;
+	}
+	
+	
+	@GetMapping("buscar")
+	public String buscar (@RequestParam("id") String id, Model model) {
+		
+		Optional<HoraExtra> horaExtraBuscada = horaExtraRepository.findById(Long.parseLong(id));
+		
+		if(!horaExtraBuscada.isPresent()) {
+			return null;
+		}
+		
+		HoraExtra horaExtra = horaExtraBuscada.get();
+		
+		model.addAttribute("horaExtra", horaExtra);
+		
+		
+		return null;
+	}
+	
 }
