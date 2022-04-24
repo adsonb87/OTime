@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="~{base :: head}">
+<title>Home</title>
+</head>
+<body>
+
+	<div th:replace="~{base :: menuUsuario}"></div>
+
+	<div class="container">
+		<div class="card mt-3">
+			<table class="table">
+				<thead>
+					<tr>
+						<th scope="col">Data</th>
+						<th scope="col">Descrição</th>
+						<th scope="col">Hora</th>
+						<th scope="col">Status</th>
+						<th scope="col"></th>
+
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="horaExtra : ${horasExtras}" )>
+
+						<td th:text="${#temporals.format(horaExtra.data,'dd/MM/yyyy')}"></td>
+						<td th:text="${horaExtra.descricao}"></td>
+						<td th:text="${horaExtra.horas}"></td>
+						<td th:text="${horaExtra.status.toString()}"></td>
+						<td>
+							<a th:classappend="${horaExtra.status.toString()} == 'AGUARDANDO' ? 'active'" class="nav-item nav-link" th:href="@{/horaextra/apagar?id=${horaExtra.id}}">Excluir</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+
+</body>
+</html>

@@ -26,6 +26,7 @@ public class HoraExtraController {
 	
 	static List<String> listaTipoHoras = null;
 	
+	
 	static {
 		listaTipoHoras = new ArrayList<>();
 		listaTipoHoras.add("COMPENSACAO");
@@ -81,9 +82,9 @@ public class HoraExtraController {
 		
 		List<HoraExtra> horasExtras = horaExtraRepository.findAll();
 		
-		model.addAttribute("listaHorasExtras", horasExtras);
+		model.addAttribute("horasExtras", horasExtras);
 		
-		return null;
+		return "hora_extra/homeHoraExtra";
 		
 	}
 	
@@ -117,12 +118,29 @@ public class HoraExtraController {
 		HoraExtra horaExtra = horaExtraBuscada.get();
 		horaExtraRepository.delete(horaExtra);
 		
-		return null;
+		return "hora_extra/homeHoraExtra";
 	}
 	
 	
 	@GetMapping("buscar")
 	public String buscar (@RequestParam("id") String id, Model model) {
+		
+		Optional<HoraExtra> horaExtraBuscada = horaExtraRepository.findById(Long.parseLong(id));
+		
+		if(!horaExtraBuscada.isPresent()) {
+			return null;
+		}
+		
+		HoraExtra horaExtra = horaExtraBuscada.get();
+		
+		model.addAttribute("horaExtra", horaExtra);
+		
+		
+		return null;
+	}
+	
+	@PutMapping("autorizar")
+	public String buscar2 (@RequestParam("id") String id, Model model) {
 		
 		Optional<HoraExtra> horaExtraBuscada = horaExtraRepository.findById(Long.parseLong(id));
 		
