@@ -106,7 +106,7 @@ public class HoraExtraController {
 		return null;
 	}
 	
-	@DeleteMapping("apagar")
+	@GetMapping("apagar")
 	public String apagar (@RequestParam("id") String id) {
 		
 		Optional<HoraExtra> horaExtraBuscada = horaExtraRepository.findById(Long.parseLong(id));

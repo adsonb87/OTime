@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head th:replace="~{base :: head}">
-<title>Home</title>
+<title>Hora Extra</title>
 </head>
 <body>
 
@@ -28,7 +28,7 @@
 						<td th:text="${horaExtra.horas}"></td>
 						<td th:text="${horaExtra.status.toString()}"></td>
 						<td>
-							<a th:classappend="${horaExtra.status.toString()} == 'AGUARDANDO' ? 'active'" class="nav-item nav-link" th:href="@{/horaextra/apagar?id=${horaExtra.id}}">Excluir</a>
+							<a th:classappend="${horaExtra.status.toString()} == 'AGUARDANDO' ? 'active'" class="nav-item nav-link" th:href="@{/horaextra/apagar/(id = ${horaExtra.id})}">Excluir</a>
 						</td>
 					</tr>
 				</tbody>
