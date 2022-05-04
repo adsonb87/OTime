@@ -13,28 +13,32 @@
 			<form th:object="${requisicaoNovoUsuario}"
 				th:action="@{/usuario/novo}" method="post" class="card-body">
 				<div class="form-group">
-					<label for="chapa">Chapa</label> <input th:field="*{chapa}"
-						class="form-control" placeholder="Chapa do usuário" />
+					<label for="chapa">Chapa</label> 
+					<input th:field="*{chapa}" class="form-control" 
+						   th:value="${usuario.chapa}"/>
 				</div>
 				<div class="form-group">
-					<label for="nome">Nome</label> <input th:field="*{nome}"
-						class="form-control" name="nome" placeholder="Nome do usuário" />
+					<label for="nome">Nome</label>
+					<input th:field="*{nome}" class="form-control" name="nome"
+						   th:value="${usuario.chapa}"/>
 				</div>
 				<div class="form-group">
-					<label for="email">E-mail</label> <input th:field="*{email}"
-						type="email" class="form-control" name="email"
-						placeholder="E-mail do usuário" />
+					<label for="email">E-mail</label>
+					<input th:field="*{email}" type="email" class="form-control" name="email"
+							th:value="${usuario.chapa}"/>
 				</div>
 				<div class="form-group">
-					<label for="senha">Senha</label> <input th:field="*{senha}"
-						type="password" class="form-control" name="senha"
-						placeholder="Senha do usuário" />
+					<label for="senha">Senha</label> 
+					<input th:field="*{senha}" type="password" class="form-control" name="senha"
+						th:value="${usuario.chapa}"/>
 				</div>
 				<div class="form-group">
-					<label th:field="*{perfil}" for="perfil">Perfil</label> <select
-						name="perfil" class="form-select" aria-label="perfil">
+					<label th:field="*{perfil}" for="perfil">Perfil</label> 
+					<select	name="perfil" class="form-select" aria-label="perfil">
 						<option selected>Selecione o perfil do usuário</option>
-						<option th:each="perfil : ${listaPerfis}" th:text="${perfil}" />
+						<option th:each="perfil : ${listaPerfis}" 
+								th:text="${perfil}" 
+								th:selected="${perfil} == ${usuario.perfil.toString()}"/>
 					</select>
 				</div>
 				<button type="submit" class="btn btn-primary mt-2">Cadastrar</button>

@@ -114,8 +114,11 @@ public class HoraExtraController {
 		if(!horaExtraBuscada.isPresent()) {
 			return null;
 		}
-		
+				
 		HoraExtra horaExtra = horaExtraBuscada.get();
+		
+		
+		
 		horaExtraRepository.delete(horaExtra);
 		
 		return "hora_extra/homeHoraExtra";

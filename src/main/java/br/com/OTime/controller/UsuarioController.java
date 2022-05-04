@@ -4,15 +4,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.bind.BindResult;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.OTime.dto.RequisicaoNovoUsuario;
 import br.com.OTime.model.Usuario;
@@ -39,7 +45,7 @@ public class UsuarioController {
 		
 		model.addAttribute("listaPerfis", listaPerfis);
 		
-		return "usuario/FormNovoUsuario";
+		return "usuario/formNovoUsuario";
 	}
 	
 	@PostMapping("novo")	
@@ -52,7 +58,7 @@ public class UsuarioController {
 		
 		System.out.println(usuario.toString());
 		
-		return null;
+		return "redirect:/usuario/listar";
 	}
 	
 	
@@ -80,32 +86,38 @@ public class UsuarioController {
 		
 		model.addAttribute("usuarios", usuarios);
 		
-		return null;
+		return "usuario/listarUsuarios";
 		
 	}
 	
-	@PutMapping("editar")
-	public String editar (@RequestParam("id") String id, Model model) {
+	@GetMapping("editar")
+	public String editar (@RequestParam("chapa") String chapa, Model model, RequisicaoNovoUsuario requisicao) {
 		
-		Optional<Usuario> UsuarioBuscado = usuarioRepository.findById(id);
+		Optional<Usuario> UsuarioBuscado = usuarioRepository.findById(chapa);
 		
 		if(!UsuarioBuscado.isPresent()) {
 			return null;
 		}
 		
-		Usuario Usuario = UsuarioBuscado.get();
-		usuarioRepository.save(Usuario);
+		Usuario usuario = UsuarioBuscado.get();
 		
-		model.addAttribute("Usuario", Usuario);
+		System.out.println(usuario.getChapa());
+		System.out.println(usuario.getNome());
+		System.out.println(usuario.getSenha());
+		System.out.println(usuario.getEmail());
+		System.out.println(usuario.getPerfil().toString());
 		
 		
-		return null;
+		model.addAttribute("usuario", usuario);
+		model.addAttribute("listaPerfis", listaPerfis);
+		
+		return "usuario/formNovoUsuario";
 	}
 	
-	@DeleteMapping("apagar")
-	public String apagar (@RequestParam("id") String id) {
+	@GetMapping("apagar")
+	public String apagar (@RequestParam("chapa") String chapa) {
 		
-		Optional<Usuario> UsuarioBuscado = usuarioRepository.findById(id);
+		Optional<Usuario> UsuarioBuscado = usuarioRepository.findById(chapa);
 		
 		if(!UsuarioBuscado.isPresent()) {
 			return null;
@@ -114,6 +126,6 @@ public class UsuarioController {
 		Usuario Usuario = UsuarioBuscado.get();
 		usuarioRepository.delete(Usuario);
 		
-		return null;
+		return "redirect:/usuario/listar";
 	}
 }
