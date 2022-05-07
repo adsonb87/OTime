@@ -1,5 +1,8 @@
 package br.com.OTime.controller;
 
+import java.sql.Time;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import br.com.OTime.dto.RequisicaoNovaHoraExtra;
 import br.com.OTime.model.HoraExtra;
+import br.com.OTime.model.Status;
+import br.com.OTime.model.Tipo;
 import br.com.OTime.model.Usuario;
 import br.com.OTime.repository.HoraExtraRepository;
 import br.com.OTime.repository.UsuarioRepository;
@@ -44,17 +49,19 @@ public class HoraExtraController {
 	
 	
 	@GetMapping("formulario")
-	public String novo(RequisicaoNovaHoraExtra requisicaoNovaHoraExtra, Model model) {
+	public String novo(RequisicaoNovaHoraExtra requisicao, Model model) {
 		
 		model.addAttribute("listaTipoHoras", listaTipoHoras);
 		
-		return null;
+		return "hora_extra/formNovaHoraExtra";
 		
 	}
 	
 	
 	@PostMapping("novo")	
 	public String salvar(RequisicaoNovaHoraExtra requisicao, Model model) {
+		
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		
 		Optional<Usuario> usuarioBuscao = usuarioRepository.findById("0100086");
 		
@@ -64,16 +71,24 @@ public class HoraExtraController {
 		
 		Usuario usuario = usuarioBuscao.get();
 		
-		HoraExtra horaExtra = requisicao.toHoraExtra();	
-		horaExtra.setUsuario(usuario);
+		System.out.println(usuario.getNome());
 		
+		System.out.println(requisicao.getDescricao()); 
+		System.out.println(LocalDate.parse(requisicao.getData(), formatter)); 
+		System.out.println(requisicao.getTipo().toString());
+		System.out.println(requisicao.getHoras());
+		System.out.println(Time.valueOf(requisicao.getHoras()));
+		
+		
+		
+		/*
 		horaExtraRepository.save(horaExtra);
 		
 		List<HoraExtra> horasExtras = horaExtraRepository.findAll();
 		
 		model.addAttribute("horasExtras", horasExtras);
-		
-		return null;
+		*/
+		return "redirect:/horaextra/formulario";
 		
 	}
 	
@@ -84,7 +99,7 @@ public class HoraExtraController {
 		
 		model.addAttribute("horasExtras", horasExtras);
 		
-		return "hora_extra/homeHoraExtra";
+		return "hora_extra/listarHoraExtra";
 		
 	}
 	

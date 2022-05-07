@@ -7,6 +7,7 @@ import java.time.format.DateTimeFormatter;
 import br.com.OTime.model.HoraExtra;
 import br.com.OTime.model.Status;
 import br.com.OTime.model.Tipo;
+import br.com.OTime.model.Usuario;
 
 public class RequisicaoNovaHoraExtra {
 	
