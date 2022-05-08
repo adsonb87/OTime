@@ -47,7 +47,8 @@ public class RequisicaoNovaHoraExtra {
 		HoraExtra horaExtra = new HoraExtra();
 		
 		horaExtra.setDescricao(descricao);
-		horaExtra.setData(LocalDate.parse(data, formatter));
+		//horaExtra.setData(LocalDate.parse(data, formatter));
+		horaExtra.setData(LocalDate.parse(data));
 		horaExtra.setHoras(Time.valueOf(horas));
 		horaExtra.setTipo(Tipo.valueOf(tipo));
 		horaExtra.setStatus(Status.AGUARDANDO);

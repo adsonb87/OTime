@@ -74,20 +74,20 @@ public class HoraExtraController {
 		System.out.println(usuario.getNome());
 		
 		System.out.println(requisicao.getDescricao()); 
-		System.out.println(LocalDate.parse(requisicao.getData(), formatter)); 
+		//System.out.println(LocalDate.parse(requisicao.getData(), formatter));
+		System.out.println(requisicao.getData());
 		System.out.println(requisicao.getTipo().toString());
-		System.out.println(requisicao.getHoras());
 		System.out.println(Time.valueOf(requisicao.getHoras()));
 		
+		HoraExtra horaExtra = requisicao.toHoraExtra();
+		horaExtra.setUsuario(usuario);
 		
-		
-		/*
 		horaExtraRepository.save(horaExtra);
 		
 		List<HoraExtra> horasExtras = horaExtraRepository.findAll();
 		
 		model.addAttribute("horasExtras", horasExtras);
-		*/
+		
 		return "redirect:/horaextra/formulario";
 		
 	}
