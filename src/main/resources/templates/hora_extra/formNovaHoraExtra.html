@@ -15,22 +15,26 @@
 				
 				<div class="form-group">
 					<label for="descricao">Descrição</label> 
-					<input th:field="*{descricao}" class="form-control"/>
+					<input th:field="*{descricao}" class="form-control"
+						   th:value="${horaExtra?.descricao}"/>
 				</div>			
 				<div class="form-group">
 					<label for="data">Data</label>
-					<input th:field="*{data}" class="form-control" name="data" type="date"/>
+					<input th:field="*{data}" class="form-control" name="data" type="date"
+						   th:value="${horaExtra?.data}"/>
 				</div>
 				<div class="form-group">
 					<label for="horas">Horas</label>
-					<input th:field="*{horas}" class="form-control" name="horas"  type="time" step="2"/>
+					<input th:field="*{horas}" class="form-control" name="horas"  type="time" step="2"
+						   th:value="${horaExtra?.horas}"/>
 				</div>
 				<div class="form-group">
 					<label th:field="*{tipo}" for="tipo">Tipo</label> 
 					<select	name="tipo" class="form-select" aria-label="tipo">
 						<option selected>Selecione o tipo da hora extra</option>
 						<option th:each="tipo : ${listaTipoHoras}" 
-								th:text="${tipo}"/>
+								th:text="${tipo}"
+								th:selected="${tipo} == ${horaExtra?.tipo?.toString()}"/>
 					</select>
 				</div>
 				<button type="submit" class="btn btn-primary mt-2">Cadastrar</button>

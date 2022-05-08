@@ -88,7 +88,7 @@ public class HoraExtraController {
 		
 		model.addAttribute("horasExtras", horasExtras);
 		
-		return "redirect:/horaextra/formulario";
+		return "redirect:/horaextra/listar";
 		
 	}
 	
@@ -103,8 +103,8 @@ public class HoraExtraController {
 		
 	}
 	
-	@PutMapping("editar")
-	public String editar (@RequestParam("id") String id, Model model) {
+	@GetMapping("editar")
+	public String editar (@RequestParam("id") String id, Model model, RequisicaoNovaHoraExtra requisicao) {
 		
 		Optional<HoraExtra> horaExtraBuscada = horaExtraRepository.findById(Long.parseLong(id));
 		
@@ -113,12 +113,21 @@ public class HoraExtraController {
 		}
 		
 		HoraExtra horaExtra = horaExtraBuscada.get();
-		horaExtraRepository.save(horaExtra);
 		
+		System.out.println(horaExtra.getId());
+		System.out.println(horaExtra.getData());
+		System.out.println(horaExtra.getDescricao());
+		System.out.println(horaExtra.getHoras());
+		System.out.println(horaExtra.getStatus().toString());
+		System.out.println(horaExtra.getTipo().toString());
+		
+		
+				
+		model.addAttribute("listaTipoHoras", listaTipoHoras);
 		model.addAttribute("horaExtra", horaExtra);
 		
 		
-		return null;
+		return "hora_extra/formNovaHoraExtra";
 	}
 	
 	@GetMapping("apagar")
@@ -136,7 +145,7 @@ public class HoraExtraController {
 		
 		horaExtraRepository.delete(horaExtra);
 		
-		return "hora_extra/homeHoraExtra";
+		return "redirect:/horaextra/listar";
 	}
 	
 	
