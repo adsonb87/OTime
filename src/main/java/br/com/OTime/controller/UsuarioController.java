@@ -56,8 +56,6 @@ public class UsuarioController {
 		
 		model.addAttribute("usuario", usuario);
 		
-		System.out.println(usuario.toString());
-		
 		return "redirect:/usuario/listar";
 	}
 	

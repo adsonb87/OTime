@@ -71,14 +71,6 @@ public class HoraExtraController {
 		
 		Usuario usuario = usuarioBuscao.get();
 		
-		System.out.println(usuario.getNome());
-		
-		System.out.println(requisicao.getDescricao()); 
-		//System.out.println(LocalDate.parse(requisicao.getData(), formatter));
-		System.out.println(requisicao.getData());
-		System.out.println(requisicao.getTipo().toString());
-		System.out.println(Time.valueOf(requisicao.getHoras()));
-		
 		HoraExtra horaExtra = requisicao.toHoraExtra();
 		horaExtra.setUsuario(usuario);
 		
@@ -113,15 +105,6 @@ public class HoraExtraController {
 		}
 		
 		HoraExtra horaExtra = horaExtraBuscada.get();
-		
-		System.out.println(horaExtra.getId());
-		System.out.println(horaExtra.getData());
-		System.out.println(horaExtra.getDescricao());
-		System.out.println(horaExtra.getHoras());
-		System.out.println(horaExtra.getStatus().toString());
-		System.out.println(horaExtra.getTipo().toString());
-		
-		
 				
 		model.addAttribute("listaTipoHoras", listaTipoHoras);
 		model.addAttribute("horaExtra", horaExtra);
@@ -166,8 +149,20 @@ public class HoraExtraController {
 		return null;
 	}
 	
-	@PutMapping("autorizar")
-	public String buscar2 (@RequestParam("id") String id, Model model) {
+	@GetMapping("autorizacao")
+	public String autorizacao(Model model) {
+		
+		List<HoraExtra> horasExtras = horaExtraRepository.findAll();
+		
+		model.addAttribute("horasExtras", horasExtras);
+		
+		return "hora_extra/autorizarHoraExtra";
+		
+	}
+	
+	
+	@GetMapping("autorizar")
+	public String autorizar (@RequestParam("id") String id, Model model) {
 		
 		Optional<HoraExtra> horaExtraBuscada = horaExtraRepository.findById(Long.parseLong(id));
 		
@@ -176,11 +171,32 @@ public class HoraExtraController {
 		}
 		
 		HoraExtra horaExtra = horaExtraBuscada.get();
+		horaExtra.setStatus(Status.APROVADA);
+		horaExtraRepository.save(horaExtra);
+				
+		model.addAttribute("horaExtra", horaExtra);
+		
+		
+		return "redirect:/horaextra/autorizacao";
+	}
+	
+	@GetMapping("negar")
+	public String negar(@RequestParam("id") String id, Model model) {
+		
+		Optional<HoraExtra> horaExtraBuscada = horaExtraRepository.findById(Long.parseLong(id));
+		
+		if(!horaExtraBuscada.isPresent()) {
+			return null;
+		}
+		
+		HoraExtra horaExtra = horaExtraBuscada.get();
+		horaExtra.setStatus(Status.NEGADA);
+		horaExtraRepository.save(horaExtra);
 		
 		model.addAttribute("horaExtra", horaExtra);
 		
 		
-		return null;
+		return "redirect:/horaextra/autorizacao";
 	}
 	
 }

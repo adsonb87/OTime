@@ -13,11 +13,18 @@ public class RequisicaoNovaHoraExtra {
 	
 	private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 	
+	private Long id;
 	private String descricao;
 	private String data;
 	private String horas;
 	private String tipo;
 	
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
 	public String getDescricao() {
 		return descricao;
 	}
@@ -46,6 +53,7 @@ public class RequisicaoNovaHoraExtra {
 	public HoraExtra toHoraExtra() {
 		HoraExtra horaExtra = new HoraExtra();
 		
+		horaExtra.setId(id);
 		horaExtra.setDescricao(descricao);
 		//horaExtra.setData(LocalDate.parse(data, formatter));
 		horaExtra.setData(LocalDate.parse(data));
