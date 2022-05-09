@@ -15,6 +15,7 @@
 						<th scope="col">Data</th>
 						<th scope="col">Descrição</th>
 						<th scope="col">Hora</th>
+						<th scope="col">Tipo</th>
 						<th scope="col">Status</th>
 						<th scope="col"></th>
 
@@ -26,6 +27,7 @@
 						<td th:text="${#temporals.format(horaExtra.data,'dd/MM/yyyy')}"></td>
 						<td th:text="${horaExtra.descricao}"></td>
 						<td th:text="${horaExtra.horas}"></td>
+						<td th:text="${horaExtra.tipo.toString()}"></td>
 						<td th:text="${horaExtra.status.toString()}"></td>
 						<td>
 							<a th:classappend="${horaExtra.status.toString()} != 'AGUARDANDO' ? 'disabled'" class="nav-item nav-link" th:href="@{/horaextra/editar/(id = ${horaExtra.id})}">
