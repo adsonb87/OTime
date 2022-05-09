@@ -1,6 +1,7 @@
 package br.com.OTime.controller;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,8 +37,8 @@ public class EquipeController {
 	
 	@GetMapping("formulario")
 	public String formulario(RequisicaoNovaEquipe requisicao, Model model) {
-				
-		return null;
+		
+		return "equipe/formNovaEquipe";
 	}
 	
 	@PostMapping("novo")	
@@ -48,7 +49,7 @@ public class EquipeController {
 		
 		model.addAttribute("equipe", equipe);
 				
-		return null;
+		return "redirect:/equipe/listar";
 	}
 	
 	
@@ -76,12 +77,54 @@ public class EquipeController {
 		
 		model.addAttribute("equipes", equipes);
 		
-		return null;
+		return "equipe/ListarEquipe";
 		
 	}
 	
-	@PutMapping("editar")
-	public String editar (@RequestParam("id") String id, Model model) {
+	@GetMapping("listarUsuarios")
+	public String listarUsuarios(@RequestParam("id") String id, Model model, RequisicaoNovaEquipe requisicao) {
+		
+		List<Equipe> equipes = equipeRepository.findAllByEquipe(Long.parseLong(id));
+		List<Usuario> usuarios = new ArrayList<Usuario>();
+		Usuario usuario = new Usuario();
+		
+		for (int i = 0; i < equipes.size(); i++) {
+			usuario = equipes.get(i).getUsuarios().get(i);
+			usuarios.add(usuario);
+		}
+		
+		
+		
+		model.addAttribute("descricaoEquipe", equipes.get(0).getDescricao());
+		model.addAttribute("idEquipe", equipes.get(0).getId());
+		model.addAttribute("usuarios", usuarios);
+		
+		return "equipe/listarUsuarioEquipe";
+		
+	}
+	
+	@GetMapping("apagarUsuarios")
+	public String apagarUsuarios (@RequestParam("id") String id, @RequestParam("chapa") String chapa) {
+		
+		List<Equipe> equipes = equipeRepository.findAllByEquipe(Long.parseLong(id));
+		List<Usuario> usuarios = new ArrayList<Usuario>();
+		Usuario usuario = new Usuario();
+		
+		for (int i = 0; i < equipes.size(); i++) {
+			if(equipes.get(i).getUsuarios().get(i).getChapa() == chapa) {
+				usuario = equipes.get(i).getUsuarios().get(i);
+				equipes.remove(usuario);
+			}
+		}
+		
+		equipeRepository.save(equipes.get(0));
+		
+		return "redirect:/equipe/listarUsuarios";
+	}
+	
+	
+	@GetMapping("editar")
+	public String editar (@RequestParam("id") String id, Model model, RequisicaoNovaEquipe requisicao) {
 		
 		Optional<Equipe> equipeBuscado = equipeRepository.findById(Long.parseLong(id));
 		
@@ -95,10 +138,10 @@ public class EquipeController {
 		model.addAttribute("equipe", equipe);
 		
 		
-		return null;
+		return "equipe/formNovaEquipe";
 	}
 	
-	@DeleteMapping("apagar")
+	@GetMapping("apagar")
 	public String apagar (@RequestParam("id") String id) {
 		
 		Optional<Equipe> equipeBuscado = equipeRepository.findById(Long.parseLong(id));
@@ -110,7 +153,7 @@ public class EquipeController {
 		Equipe equipe = equipeBuscado.get();
 		equipeRepository.delete(equipe);
 		
-		return null;
+		return "redirect:/equipe/listar";
 	}
 	
 	@PutMapping("cadastrarUsuario")

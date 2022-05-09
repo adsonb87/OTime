@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head th:replace="~{base :: head}">
+<title>Hora Extra</title>
+</head>
+<body>
+
+	<div th:replace="~{base :: menuUsuario}"></div>
+
+	<div class="container">
+		<h1 th:text="${descricaoEquipe}"></h1>
+		<div class="card mt-3">
+			<table class="table">
+				<thead>
+					<tr>
+						<th scope="col">Chapa</th>
+						<th scope="col">Nome</th>
+						<th scope="col">Perfil</th>
+						<th scope="col"></th>
+
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="usuario : ${usuarios}">
+						
+						<td th:text="${usuario.chapa}"></td>
+						<td th:text="${usuario.nome}"></td>
+						<td th:text="${usuario.perfil.toString()}"></td>
+
+						<td>
+							<a class="nav-item nav-link" th:href="@{/equipe/apagarUsuarios/(id = ${idEquipe}, chapa = ${usuario.chapa})}">
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-backspace" viewBox="0 0 16 16">
+  								<path d="M5.83 5.146a.5.5 0 0 0 0 .708L7.975 8l-2.147 2.146a.5.5 0 0 0 .707.708l2.147-2.147 2.146 2.147a.5.5 0 0 0 .707-.708L9.39 8l2.146-2.146a.5.5 0 0 0-.707-.708L8.683 7.293 6.536 5.146a.5.5 0 0 0-.707 0z"/>
+  								<path d="M13.683 1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-7.08a2 2 0 0 1-1.519-.698L.241 8.65a1 1 0 0 1 0-1.302L5.084 1.7A2 2 0 0 1 6.603 1h7.08zm-7.08 1a1 1 0 0 0-.76.35L1 8l4.844 5.65a1 1 0 0 0 .759.35h7.08a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1h-7.08z"/>
+							</svg>
+							</a>
+						</td>
+						<td>
+							<a class="nav-item nav-link" th:href="@{/equipe/listarUsuarios/(id = ${usuario.chapa})}">
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-people" viewBox="0 0 16 16">
+							  <path d="M15 14s1 0 1-1-1-4-5-4-5 3-5 4 1 1 1 1h8zm-7.978-1A.261.261 0 0 1 7 12.996c.001-.264.167-1.03.76-1.72C8.312 10.629 9.282 10 11 10c1.717 0 2.687.63 3.24 1.276.593.69.758 1.457.76 1.72l-.008.002a.274.274 0 0 1-.014.002H7.022zM11 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0zM6.936 9.28a5.88 5.88 0 0 0-1.23-.247A7.35 7.35 0 0 0 5 9c-4 0-5 3-5 4 0 .667.333 1 1 1h4.216A2.238 2.238 0 0 1 5 13c0-1.01.377-2.042 1.09-2.904.243-.294.526-.569.846-.816zM4.92 10A5.493 5.493 0 0 0 4 13H1c0-.26.164-1.03.76-1.724.545-.636 1.492-1.256 3.16-1.275zM1.5 5.5a3 3 0 1 1 6 0 3 3 0 0 1-6 0zm3-2a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/>
+							</svg>
+							</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+
+</body>
+</html>

@@ -98,14 +98,7 @@ public class UsuarioController {
 		}
 		
 		Usuario usuario = UsuarioBuscado.get();
-		
-		System.out.println(usuario.getChapa());
-		System.out.println(usuario.getNome());
-		System.out.println(usuario.getSenha());
-		System.out.println(usuario.getEmail());
-		System.out.println(usuario.getPerfil().toString());
-		
-		
+				
 		model.addAttribute("usuario", usuario);
 		model.addAttribute("listaPerfis", listaPerfis);
 		

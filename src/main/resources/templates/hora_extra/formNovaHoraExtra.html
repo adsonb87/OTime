@@ -14,7 +14,7 @@
 				th:action="@{/horaextra/novo}" method="post" class="card-body">
 				
 				<div class="form-group" th:if="${horaExtra}">
-					<label for="descricao">Id</label> 
+					<label for="id">Id</label> 
 					<input th:field="*{id}" class="form-control" type="text" readonly
 						   th:value="${horaExtra?.id}"/>
 				</div>	
