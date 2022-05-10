@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import br.com.OTime.dto.RequisicaoNovaEquipe;
+import br.com.OTime.dto.RequisicaoNovoUsuario;
 import br.com.OTime.dto.RequisicaoNovaEquipe;
 import br.com.OTime.model.Equipe;
 import br.com.OTime.model.Usuario;
@@ -104,8 +105,12 @@ public class EquipeController {
 	}
 	
 	@GetMapping("apagarUsuarios")
-	public String apagarUsuarios (@RequestParam("id") String id, @RequestParam("chapa") String chapa) {
+	public String apagarUsuarios (@RequestParam(name = "id", required = false) String id, @RequestParam(name = "chapa", required = false) String chapa) {
 		
+		System.out.println("ID"+id);
+		System.out.println("Chapa"+chapa);
+		
+		/*
 		List<Equipe> equipes = equipeRepository.findAllByEquipe(Long.parseLong(id));
 		List<Usuario> usuarios = new ArrayList<Usuario>();
 		Usuario usuario = new Usuario();
@@ -118,7 +123,7 @@ public class EquipeController {
 		}
 		
 		equipeRepository.save(equipes.get(0));
-		
+		*/
 		return "redirect:/equipe/listarUsuarios";
 	}
 	
