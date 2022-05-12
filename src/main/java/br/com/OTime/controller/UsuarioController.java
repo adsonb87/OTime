@@ -60,23 +60,6 @@ public class UsuarioController {
 	}
 	
 	
-	@PutMapping("buscar")
-	public String buscar (@RequestParam("id") String id, Model model) {
-		
-		Optional<Usuario> usuarioBuscado = usuarioRepository.findById(id);
-		
-		if(!usuarioBuscado.isPresent()) {
-			return null;
-		}
-		
-		Usuario usuario = usuarioBuscado.get();
-		
-		model.addAttribute("usuario", usuario);
-		
-		
-		return null;
-	}
-	
 	@GetMapping("listar")
 	public String listar(Model model) {
 		

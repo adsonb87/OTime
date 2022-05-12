@@ -54,23 +54,6 @@ public class EquipeController {
 	}
 	
 	
-	@PutMapping("buscar")
-	public String buscar (@RequestParam("id") String id, Model model) {
-		
-		Optional<Equipe> equipeBuscado = equipeRepository.findById(Long.parseLong(id));
-		
-		if(!equipeBuscado.isPresent()) {
-			return null;
-		}
-		
-		Equipe equipe = equipeBuscado.get();
-		
-		model.addAttribute("equipe", equipe);
-		
-		
-		return null;
-	}
-	
 	@GetMapping("listar")
 	public String listar(Model model) {
 		

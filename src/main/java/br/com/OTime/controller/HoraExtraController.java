@@ -131,24 +131,7 @@ public class HoraExtraController {
 		return "redirect:/horaextra/listar";
 	}
 	
-	
-	@GetMapping("buscar")
-	public String buscar (@RequestParam("id") String id, Model model) {
 		
-		Optional<HoraExtra> horaExtraBuscada = horaExtraRepository.findById(Long.parseLong(id));
-		
-		if(!horaExtraBuscada.isPresent()) {
-			return null;
-		}
-		
-		HoraExtra horaExtra = horaExtraBuscada.get();
-		
-		model.addAttribute("horaExtra", horaExtra);
-		
-		
-		return null;
-	}
-	
 	@GetMapping("autorizacao")
 	public String autorizacao(Model model) {
 		
