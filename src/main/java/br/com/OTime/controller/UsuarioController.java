@@ -74,13 +74,13 @@ public class UsuarioController {
 	@GetMapping("editar")
 	public String editar (@RequestParam("chapa") String chapa, Model model, RequisicaoNovoUsuario requisicao) {
 		
-		Optional<Usuario> UsuarioBuscado = usuarioRepository.findById(chapa);
+		Optional<Usuario> usuarioBuscado = usuarioRepository.findById(chapa);
 		
-		if(!UsuarioBuscado.isPresent()) {
+		if(!usuarioBuscado.isPresent()) {
 			return null;
 		}
 		
-		Usuario usuario = UsuarioBuscado.get();
+		Usuario usuario = usuarioBuscado.get();
 				
 		model.addAttribute("usuario", usuario);
 		model.addAttribute("listaPerfis", listaPerfis);
