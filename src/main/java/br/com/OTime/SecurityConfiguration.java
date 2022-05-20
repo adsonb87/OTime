@@ -30,7 +30,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 	private UsuarioRepository usuarioRepository;
 	
 	@Override
-	public UserDetailsService userDetailsService() throws Exception{
+	public UserDetailsService userDetailsService(){
 		return new SSUserDetailsService(usuarioRepository);
 	}
 	
@@ -44,7 +44,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 			.anyRequest().authenticated()
 		.and()
 			.formLogin(form -> form
-				.loginPage("/login")
+				.loginPage("/home/login")
 				.defaultSuccessUrl("/home", true)
 				.permitAll()
 			)
