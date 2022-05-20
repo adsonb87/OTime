@@ -1,5 +1,7 @@
 package br.com.OTime.dto;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import br.com.OTime.model.Perfil;
 import br.com.OTime.model.Usuario;
 
@@ -11,7 +13,7 @@ public class RequisicaoNovoUsuario {
 	private String senha;
 	private String perfil;
 	
-	
+	BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 	
 	public String getChapa() {
 		return chapa;
@@ -35,7 +37,7 @@ public class RequisicaoNovoUsuario {
 		return senha;
 	}
 	public void setSenha(String senha) {
-		this.senha = senha;
+		this.senha = encoder.encode(senha);
 	}
 	public String getPerfil() {
 		return perfil;

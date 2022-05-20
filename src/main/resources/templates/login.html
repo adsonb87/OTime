@@ -1,10 +1,25 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<head th:replace="~{base :: head}">
+<title>Login</title>
 </head>
 <body>
-
+	<div class="container">
+			<div class="card mb3">
+				<form th:action="@{/login}" method="post" class="card-body">
+					<div class="form-group"> 
+						<label for="username">Chapa</label>
+						<input type="text" name="username" class="form-control" placeholder="chapa" /> 
+					</div>
+					<div class="form-group mb-2">
+						<label for="password">Senha</label>
+						<input type="password"class="form-control" name="password" placeholder="senha" />
+					</div>
+					<button type="submit" class="btn btn-primary">Login</button>
+				</form>	
+			</div>
+		</div>
+	</div>
 </body>
 </html>

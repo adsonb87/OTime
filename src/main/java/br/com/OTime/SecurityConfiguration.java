@@ -9,6 +9,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import br.com.OTime.model.Perfil;
 import br.com.OTime.repository.UsuarioRepository;
@@ -22,7 +24,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 	public static BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-	
+		
 	@Autowired
 	private SSUserDetailsService userDetailsSevice;
 	
@@ -44,8 +46,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 			.anyRequest().authenticated()
 		.and()
 			.formLogin(form -> form
-				.loginPage("/home/login")
-				.defaultSuccessUrl("/home", true)
+				.loginPage("/login")
+				.defaultSuccessUrl("/usuario/listar", true)
 				.permitAll()
 			)
 			.logout(logout -> logout
@@ -58,16 +60,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 	
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception{
-		
+
 		auth.userDetailsService(userDetailsService())
 			.passwordEncoder(passwordEncoder());
 		
 		
-		/*
-		auth.inMemoryAuthentication()
+		/*auth.inMemoryAuthentication()
 			.withUser("user")
 			.password("12345")
-			.authorities("USER");
+			.authorities(Perfil.ADMIN.toString());
 		*/
 	}
 }

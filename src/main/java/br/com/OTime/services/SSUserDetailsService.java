@@ -31,10 +31,10 @@ public class SSUserDetailsService implements UserDetailsService {
 	}
 	
 	@Override
-	public UserDetails loadUserByUsername(String chapa) throws UsernameNotFoundException {
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		
 		try {
-			Optional<Usuario> usuarioBuscado = usuarioRepository.findById(chapa);
+			Optional<Usuario> usuarioBuscado = usuarioRepository.findById(username);
 			
 			
 			if(!usuarioBuscado.isPresent()) {
