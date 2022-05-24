@@ -56,38 +56,72 @@ public class HomeController {
 		gc.set(Calendar.MINUTE, 0);
 		gc.set(Calendar.HOUR, 0);
 		
+		
+		GregorianCalendar gcSaldo = new GregorianCalendar();
+		gcSaldo.set(Calendar.SECOND, 0);
+		gcSaldo.set(Calendar.MINUTE, 0);
+		gcSaldo.set(Calendar.HOUR, 0);
+		
 		SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss");
 		
-		
+		Integer he = 0;
+		Integer me = 0;
+		Integer se = 0;
+		Integer hc = 0;
+		Integer mc = 0;
+		Integer sc = 0;
+		Integer saldoh = 0;
+		Integer saldom = 0;
+		Integer saldos = 0;
 		
 		for (HoraExtra horaExtra : horaExtraBuscada) {
 			
 			if(horaExtra.getTipo().toString().equals("COMPENSACAO")) {
 				
-				gcComp.add(Calendar.SECOND,horaExtra.getHoras().getSeconds());
-				gcComp.add(Calendar.MINUTE,horaExtra.getHoras().getMinutes());
-				gcComp.add(Calendar.HOUR,horaExtra.getHoras().getHours());
+				hc = hc + horaExtra.getHoras().getHours();
+				mc = mc + horaExtra.getHoras().getMinutes();
+				sc = sc + horaExtra.getHoras().getSeconds();
 				
 				
+			}else if(horaExtra.getTipo().toString().equals("HORAEXTRA")) {									
 				
-			}if(horaExtra.getTipo().toString().equals("HORAEXTRA")) {
-											
-
-				gc.add(Calendar.SECOND,horaExtra.getHoras().getSeconds());
-				gc.add(Calendar.MINUTE,horaExtra.getHoras().getMinutes());
-				gc.add(Calendar.HOUR,horaExtra.getHoras().getHours());
-				
+				he = he + horaExtra.getHoras().getHours();
+				me = me + horaExtra.getHoras().getMinutes();
+				se = se + horaExtra.getHoras().getSeconds();
 				
 			}
 				
 		}
 		
 		
+		saldoh = he - hc;
+		saldom = me - mc;
+		saldos = se - sc;
+		
+		gcSaldo.set(Calendar.SECOND, saldos);
+		gcSaldo.set(Calendar.MINUTE, saldom);
+		gcSaldo.set(Calendar.HOUR, saldoh);
+		
+		gcComp.set(Calendar.SECOND, sc);
+		gcComp.set(Calendar.MINUTE, mc);
+		gcComp.set(Calendar.HOUR, hc);
+		
+		gc.set(Calendar.SECOND, se);
+		gc.set(Calendar.MINUTE, me);
+		gc.set(Calendar.HOUR, he);
+		
+		
 		System.out.println("A compensar: " + sdf.format(gcComp.getTime()));
-		 
 		System.out.println("Horas Extras: " + sdf.format(gc.getTime()));
 		
+		System.out.println(saldoh +"-"+ saldom +"-"+ saldos);
+		System.out.println("Saldo: " + sdf.format(gcSaldo.getTime()));
+		
+		
 		model.addAttribute("usuario", usuario);
+		model.addAttribute("horasExtras", sdf.format(gc.getTime()));
+		model.addAttribute("horasCompensadas", sdf.format(gcComp.getTime()));
+		model.addAttribute("saldo", sdf.format(gcSaldo.getTime()));
 		
 		return "home";
 	}
