@@ -5,7 +5,7 @@
 </head>
 <body>
 
-	<div th:replace="~{base :: menuUsuario}"></div>
+	<div th:replace="~{base ::  ${usuario.perfil.toString()} == 'ADMIN' ? menuAdmin : menuUsuario}"></div>
 
 	<div class="container">
 		<div class="card mt-3">

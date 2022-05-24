@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -39,6 +40,18 @@ public class EquipeController {
 	@GetMapping("formulario")
 	public String formulario(RequisicaoNovaEquipe requisicao, Model model) {
 		
+		String chapa= SecurityContextHolder.getContext().getAuthentication().getName();
+
+		Optional<Usuario> usuarioBuscado = usuarioRepository.findById(chapa);
+				
+		if(!usuarioBuscado.isPresent()) {
+			return null;
+		}
+			
+		Usuario usuario = usuarioBuscado.get();
+
+		model.addAttribute("usuario", usuario);
+		
 		return "equipe/formNovaEquipe";
 	}
 	
@@ -57,6 +70,18 @@ public class EquipeController {
 	@GetMapping("listar")
 	public String listar(Model model) {
 		
+		String chapa= SecurityContextHolder.getContext().getAuthentication().getName();
+
+		Optional<Usuario> usuarioBuscado = usuarioRepository.findById(chapa);
+				
+		if(!usuarioBuscado.isPresent()) {
+			return null;
+		}
+			
+		Usuario usuario = usuarioBuscado.get();
+
+		model.addAttribute("usuario", usuario);
+		
 		List<Equipe> equipes = equipeRepository.findAll();
 		
 		model.addAttribute("equipes", equipes);
@@ -68,6 +93,20 @@ public class EquipeController {
 	@GetMapping("listarUsuarios")
 	public String listarUsuarios(@RequestParam("id") String id, Model model, RequisicaoNovaEquipe requisicao) {
 		
+		String chapa= SecurityContextHolder.getContext().getAuthentication().getName();
+
+		Optional<Usuario> usuarioBuscado = usuarioRepository.findById(chapa);
+				
+		if(!usuarioBuscado.isPresent()) {
+			return null;
+		}
+			
+		Usuario usuarioLogin = usuarioBuscado.get();
+		
+		System.out.println(usuarioLogin.getChapa());
+		
+		model.addAttribute("usuarioLogin", usuarioLogin);
+		
 		List<Equipe> equipes = equipeRepository.findAllByEquipe(Long.parseLong(id));
 		List<Usuario> usuarios = new ArrayList<Usuario>();
 		Usuario usuario = new Usuario();
@@ -77,11 +116,25 @@ public class EquipeController {
 			usuarios.add(usuario);
 		}
 		
+			
+		if(equipes.size() == 0) {
+			Optional<Equipe> equipesSize = equipeRepository.findById(Long.parseLong(id));
+			
+			if(!equipesSize.isPresent()) {
+				return null;
+			}
+			
+			Equipe equipe = equipesSize.get();
+			
+			model.addAttribute("descricaoEquipe", equipe.getDescricao());
+			model.addAttribute("idEquipe", equipe.getId());
+			model.addAttribute("usuarios", usuarios);
+		}else {
+			model.addAttribute("descricaoEquipe", equipes.get(0).getDescricao());
+			model.addAttribute("idEquipe", equipes.get(0).getId());
+			model.addAttribute("usuarios", usuarios);
+		}
 		
-		
-		model.addAttribute("descricaoEquipe", equipes.get(0).getDescricao());
-		model.addAttribute("idEquipe", equipes.get(0).getId());
-		model.addAttribute("usuarios", usuarios);
 		
 		return "equipe/listarUsuarioEquipe";
 		
@@ -156,6 +209,18 @@ public class EquipeController {
 	
 	@GetMapping("cadastrarUsuario")
 	public String cadastrarUsuario(@RequestParam("id") String idEquipe, Model model, RequisicaoNovoUsuario requisicao) {
+		
+		String chapa= SecurityContextHolder.getContext().getAuthentication().getName();
+
+		Optional<Usuario> usuarioBuscado = usuarioRepository.findById(chapa);
+				
+		if(!usuarioBuscado.isPresent()) {
+			return null;
+		}
+			
+		Usuario usuario = usuarioBuscado.get();
+
+		model.addAttribute("usuario", usuario);
 		
 		model.addAttribute("idEquipe", idEquipe);
 		

@@ -8,6 +8,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.bind.BindResult;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -43,6 +44,18 @@ public class UsuarioController {
 	@GetMapping("formulario")
 	public String formulario(RequisicaoNovoUsuario requisicao, Model model) {
 		
+		String chapa= SecurityContextHolder.getContext().getAuthentication().getName();
+
+		Optional<Usuario> usuarioBuscado = usuarioRepository.findById(chapa);
+				
+				if(!usuarioBuscado.isPresent()) {
+					return null;
+				}
+				
+				Usuario usuario = usuarioBuscado.get();
+
+
+		model.addAttribute("usuario", usuario);	
 		model.addAttribute("listaPerfis", listaPerfis);
 		
 		return "usuario/formNovoUsuario";
@@ -56,12 +69,25 @@ public class UsuarioController {
 		
 		model.addAttribute("usuario", usuario);
 		
-		return "redirect:/usuario/listar";
+		return "redirect:/home";
 	}
 	
 	
 	@GetMapping("listar")
 	public String listar(Model model) {
+		
+		String chapa= SecurityContextHolder.getContext().getAuthentication().getName();
+
+		Optional<Usuario> usuarioBuscado = usuarioRepository.findById(chapa);
+				
+		if(!usuarioBuscado.isPresent()) {
+			return null;
+		}
+			
+		Usuario usuario = usuarioBuscado.get();
+
+		model.addAttribute("usuario", usuario);
+
 		
 		List<Usuario> usuarios = usuarioRepository.findAll();
 		
@@ -82,6 +108,26 @@ public class UsuarioController {
 		
 		Usuario usuario = usuarioBuscado.get();
 				
+		model.addAttribute("usuario", usuario);
+		model.addAttribute("listaPerfis", listaPerfis);
+		
+		return "usuario/formNovoUsuario";
+	}
+	
+	
+	@GetMapping("editarUsuarioLogado")
+	public String editarUsuarioLogado (Model model, RequisicaoNovoUsuario requisicao) {
+		
+		String chapa = SecurityContextHolder.getContext().getAuthentication().getName();
+		
+		Optional<Usuario> usuarioBuscado = usuarioRepository.findById(chapa);
+		
+		if(!usuarioBuscado.isPresent()) {
+			return null;
+		}
+		
+		Usuario usuario = usuarioBuscado.get();
+		
 		model.addAttribute("usuario", usuario);
 		model.addAttribute("listaPerfis", listaPerfis);
 		

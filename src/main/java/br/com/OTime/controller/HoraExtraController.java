@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -51,6 +52,18 @@ public class HoraExtraController {
 	@GetMapping("formulario")
 	public String novo(RequisicaoNovaHoraExtra requisicao, Model model) {
 		
+		String chapa= SecurityContextHolder.getContext().getAuthentication().getName();
+
+		Optional<Usuario> usuarioBuscado = usuarioRepository.findById(chapa);
+				
+		if(!usuarioBuscado.isPresent()) {
+			return null;
+		}
+			
+		Usuario usuario = usuarioBuscado.get();
+
+		model.addAttribute("usuario", usuario);
+		
 		model.addAttribute("listaTipoHoras", listaTipoHoras);
 		
 		return "hora_extra/formNovaHoraExtra";
@@ -63,7 +76,10 @@ public class HoraExtraController {
 		
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 		
-		Optional<Usuario> usuarioBuscao = usuarioRepository.findById("0100086");
+		String chapa = SecurityContextHolder.getContext().getAuthentication().getName();
+		
+		
+		Optional<Usuario> usuarioBuscao = usuarioRepository.findById(chapa);
 		
 		if(!usuarioBuscao.isPresent()) {
 			return null;
@@ -80,17 +96,56 @@ public class HoraExtraController {
 		
 		model.addAttribute("horasExtras", horasExtras);
 		
-		return "redirect:/horaextra/listar";
+		return "redirect:/horaextra/listarUsuario";
 		
 	}
 	
 	@GetMapping("listar")
 	public String listar(Model model) {
 		
+		String chapa= SecurityContextHolder.getContext().getAuthentication().getName();
+
+		Optional<Usuario> usuarioBuscado = usuarioRepository.findById(chapa);
+				
+		if(!usuarioBuscado.isPresent()) {
+			return null;
+		}
+			
+		Usuario usuario = usuarioBuscado.get();
+
+		model.addAttribute("usuario", usuario);
+		
 		List<HoraExtra> horasExtras = horaExtraRepository.findAll();
 		
 		model.addAttribute("horasExtras", horasExtras);
 		
+		String username = SecurityContextHolder.getContext().getAuthentication().getName();
+		
+		
+		return "hora_extra/listarHoraExtra";
+		
+	}
+	
+	
+	@GetMapping("listarUsuario")
+	public String listarUsuario(Model model) {
+		
+		String chapa = SecurityContextHolder.getContext().getAuthentication().getName();
+		
+		Optional<Usuario> usuarioBuscado = usuarioRepository.findById(chapa);
+				
+		if(!usuarioBuscado.isPresent()) {
+			return null;
+		}
+			
+		Usuario usuario = usuarioBuscado.get();
+
+		model.addAttribute("usuario", usuario);
+				
+		List<HoraExtra> horasExtras = horaExtraRepository.findAllByUsuario(chapa);
+		
+		model.addAttribute("horasExtras", horasExtras);
+				
 		return "hora_extra/listarHoraExtra";
 		
 	}
@@ -128,12 +183,24 @@ public class HoraExtraController {
 		
 		horaExtraRepository.delete(horaExtra);
 		
-		return "redirect:/horaextra/listar";
+		return "redirect:/horaextra/listarUsuario";
 	}
 	
 		
 	@GetMapping("autorizacao")
 	public String autorizacao(Model model) {
+		
+		String chapa= SecurityContextHolder.getContext().getAuthentication().getName();
+
+		Optional<Usuario> usuarioBuscado = usuarioRepository.findById(chapa);
+				
+		if(!usuarioBuscado.isPresent()) {
+			return null;
+		}
+			
+		Usuario usuario = usuarioBuscado.get();
+
+		model.addAttribute("usuario", usuario);
 		
 		List<HoraExtra> horasExtras = horaExtraRepository.findAll();
 		
